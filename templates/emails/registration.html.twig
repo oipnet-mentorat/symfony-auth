@@ -1,0 +1,4 @@
+<h1>Registration</h1>
+
+Welcome {{ user.username }}
+Activate you account <a href="{{ absolute_url(path('activate', {"token": user.token})) }}">Activate</a>
