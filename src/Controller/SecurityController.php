@@ -76,17 +76,22 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // On récupère l'utilisateur depuis le formulaire
             $user = $form->getData();
 
+            // Encodage du password
             $password = $this->encoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password)->setIsActive(false)->setPlainPassword(null);
 
+            // Enregistrement de l'utilisateur
             $this->em->persist($user);
             $this->em->flush();
 
+            // Création d'un évènement et lancement de l'evenement
             $event = new UserCreatedEvent($user);
             $this->dispatcher->dispatch(UserCreatedEvent::NAME, $event);
 
+            // Redirection vers la page d'accueil
             return $this->redirect('/');
         }
 
@@ -100,22 +105,28 @@ class SecurityController extends AbstractController
      */
     public function activate($token)
     {
+        // Recupération de l'utilisateur par son token
         $user = $this->em->getRepository(User::class)
             ->findOneBy(['token' => $token])
         ;
 
+        // Si pas d'utilisateur trouvé
         if (!$user) {
             throw new NotFoundHttpException("User not exist");
         }
 
+        // Activation de l'utilisateur
         $user->setIsActive(true)
             ->setToken(null);
 
+        // Enregistrement des modifications
         $this->em->persist($user);
         $this->em->flush();
 
+        // Authentification de l'utilisateur
         $this->token->setToken(new UsernamePasswordToken($user, $user->getPassword(), 'main', $user->getRoles()));
 
+        // Redirection
         return $this->redirect('/');
     }
 }

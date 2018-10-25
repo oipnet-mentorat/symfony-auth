@@ -41,7 +41,7 @@ class UserCreatedSubcriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-           UserCreatedEvent::NAME => 'sendActivationMail',
+           UserCreatedEvent::NAME => 'sendActivationMail', // On écoute l'évènement user.created et lance la méthode lorsque cet évènement est lancé
         ];
     }
 }

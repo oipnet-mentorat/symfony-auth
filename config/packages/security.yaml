@@ -22,6 +22,7 @@ security:
         main:
             anonymous: true
             provider: db_provider
+            # Permet de verifier si l'utilisateur est actif
             user_checker: App\Security\UserChecker
 
             # activate different ways to authenticate

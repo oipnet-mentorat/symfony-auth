@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: arnaud
- * Date: 17/10/18
- * Time: 17:01
- */
 
 namespace App\Event;
 
@@ -12,8 +6,14 @@ namespace App\Event;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * Class UserCreatedEvent
+ * Evènement lancé lorsque l'on créé un utilisateur
+ * @package App\Event
+ */
 class UserCreatedEvent extends Event
 {
+    // Nom de l'évènement
     const NAME = 'user.created';
 
     protected $user;
